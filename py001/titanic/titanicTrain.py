@@ -13,7 +13,9 @@ import onnx_chainer
 import chainer.links as L
 import chainer.functions as F
 from chainer import Sequential
+from chainer import optimizers
 import matplotlib.pyplot as plt
+from chainer.optimizer_hooks import WeightDecay
 
 import const as CONST
 
@@ -34,7 +36,13 @@ net = Sequential(
 #Step 4 : 最適化手法を選択する
 #SGD:確率的勾配降下法 (SGD)
 optimizer = chainer.optimizers.SGD(lr=0.01)
+#MomentumSGD は SGD の改良版で、パラメータ更新の際に前回の勾配を使って更新方向がスムーズになる
+#optimizer = optimizers.MomentumSGD(lr=0.001, momentum=0.9)
 optimizer.setup(net)
+
+for param in net.params():
+    if param.name != 'b':  # バイアス以外だったら
+        param.update_rule.add_hook(WeightDecay(0.0001))  # 重み減衰を適用
 
 #Step 5 : ネットワークを訓練する
 iteration = 0
