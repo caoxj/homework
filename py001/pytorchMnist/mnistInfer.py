@@ -24,8 +24,7 @@ net.load_state_dict(torch.load(CONFIG.NET_NAME))
 #test_loader, test_dataset = datasets.load_data_test()
 
 #kaggleのcsvファイルから取得
-kdata = kaggleDataset.KaggleDataset("../data/digit-recognizer/test.csv", False)
-test_loader = datasets.get_minibatch(kdata)
+test_loader, test_dataset = datasets.load_data_test("../data/digit-recognizer/test.csv")
 
 #評価
 #モデルを評価してみます。

@@ -12,6 +12,7 @@ import model as MODEL
 import config as CONFIG
 import datasets
 import kaggleDataset
+import matplotlib.pyplot as plt
 
 #モデルインスタンスの作成
 net = MODEL.Net(CONFIG.input_size, CONFIG.hidden_size, CONFIG.num_classes)

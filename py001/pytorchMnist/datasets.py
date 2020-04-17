@@ -6,6 +6,7 @@ Created on 2020/04/14
 import torch.utils.data
 from torchvision import datasets
 import torchvision.transforms as transforms
+import kaggleDataset
 
 import config
 
@@ -31,9 +32,10 @@ def get_minibatch(train_dataset):
 def load_data_test(rpath = "../data"):
 #torchvision.datasetsからMNISTという手書き文字認識のデータセットを利用
 # MNIST Dataset 
-    test_dataset = datasets.MNIST(root=rpath, 
-                              train=False, 
-                              transform=transforms.ToTensor())
+    #test_dataset = datasets.MNIST(root=rpath, 
+    #                          train=False, 
+    #                          transform=transforms.ToTensor())
+    test_dataset = kaggleDataset.KaggleDataset("../data/digit-recognizer/test.csv", False)
     
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset, 
                                           batch_size=config.batch_size, 

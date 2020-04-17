@@ -45,9 +45,9 @@ class KaggleDataset(torch.utils.data.Dataset):
         # dataはtorch.Tensorに変換しておく必要あり
         # ※画像の場合などは、transformにtransforms.ToTensorを指定して変換
         if self.train :
-            data = torch.Tensor([self.dataframe[idx][1:]])
+            data = torch.Tensor([self.dataframe[idx][1:].astype('float32')])
         else:
-            data = torch.Tensor([self.dataframe[idx][:]])
+            data = torch.Tensor([self.dataframe[idx][:].astype('float32')])
         # data, labelの順でリターン
         return data, label
     
