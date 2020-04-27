@@ -1,4 +1,5 @@
 参考：https://www.sejuku.net/blog/64175
+kaggle:https://www.kaggle.com/c/digit-recognizer
 
 pytorchサンプル
 MNIST手書き文字認識
@@ -14,3 +15,9 @@ MNISTデータについて
     - t10k-labels-idx1-ubyte   # テスト用ラベル
     - train-images-idx3-ubyte  # 学習用データ画像
     - train-labels-idx1-ubyte  # 学習用データラベル
+    
+kaggleデータ
+- digit-recognizer
+	- sample_submission.csv
+	- test.csv
+	- train.csv

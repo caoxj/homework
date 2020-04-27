@@ -6,13 +6,15 @@ Created on 2020/04/14
 import torch.nn as nn
 import torch.optim
 import torch.onnx
+import torch
+import torchvision
+#import torch.randn
 from torch.autograd import Variable
  
 import model as MODEL
 import config as CONFIG
 import datasets
 import kaggleDataset
-import matplotlib.pyplot as plt
 
 #モデルインスタンスの作成
 net = MODEL.Net(CONFIG.input_size, CONFIG.hidden_size, CONFIG.num_classes)
@@ -67,4 +69,3 @@ torch.save(net.state_dict(), CONFIG.NET_NAME)
 #net.train(False)
 #dummy_param = Variable(torch.randn(1, 3, 224, 224), requires_grad=True)
 #torch_out = torch.onnx._export(net,dummy_param,CONFIG.NET_NAME_ONNX,export_params=True)
-

@@ -13,7 +13,6 @@ import config as CONFIG
 import datasets
 from torch.autograd import Variable
 from torch import max
-import kaggleDataset
 import numpy as np
 
 #モジュール読み込み
@@ -49,7 +48,7 @@ def evaluate(net, test_loader=test_loader):
         w = np.append(w, tmp, axis=0)
         
         total += labels.size(0)
-        correct += (predicted.cpu() == labels).sum()
+        #correct += (predicted.cpu() == labels).sum()
  
     #print('Accuracy of the network on the 10000 test images: %d %%' % (100 * correct / total))
     
