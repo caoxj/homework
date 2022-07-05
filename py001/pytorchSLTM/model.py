@@ -4,12 +4,16 @@ Created on 2020/04/14
 @author: sou
 '''
 
+import torch
 import torch.nn as nn
 
-import config as CONFIG
+import pytorchSLTM.config as CONFIG
 
-#ニューラルネットワークの定義     
-            
+#ニューラルネットワークの定義
+
+# GPUを使うために必要
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # nn.Moduleを継承して新しいクラスを作る。決まり文句
 class LSTMClassifier(nn.Module):
     # モデルで使う各ネットワークをコンストラクタで定義
@@ -29,6 +33,7 @@ class LSTMClassifier(nn.Module):
 
     # 順伝播処理はforward関数に記載
     def forward(self, sentence):
+        # print(sentence)
         # 文章内の各単語をベクトル化して出力。2次元のテンソル
         embeds = self.word_embeddings(sentence)
         # 2次元テンソルをLSTMに食わせられる様にviewで３次元テンソルにした上でLSTMへ流す。

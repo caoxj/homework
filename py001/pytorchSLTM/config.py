@@ -1,9 +1,9 @@
-# Hyper Parameters 
+# Hyper Parameters
 # gray image 28*28
 """
 input_size = 28*28
 hidden_size = 500
-# output(0~9) 
+# output(0~9)
 num_classes = 10
 num_epochs = 8
 batch_size = 200
@@ -18,7 +18,8 @@ EMBEDDING_DIM = 10
 HIDDEN_DIM = 128
 
 num_epochs = 100
-learning_rate = 0.01
+batch_size = 100
+learning_rate = 0.05
 
 NET_NAME = "pytorch_sltm.net"
 NET_NAME_ONNX = "pytorch_sltm.onnx"

@@ -11,7 +11,10 @@ import MeCab
 import os
 import glob
 import pandas as pd
-import linecache 
+import linecache
+from sklearn.utils import shuffle
+
+import pytorchSLTM.config as CONFIG
 
 def load(rpath = "../data/sltm_livedoor/text/"):
     # カテゴリを配列で取得
@@ -27,6 +30,23 @@ def load(rpath = "../data/sltm_livedoor/text/"):
             title = linecache.getline(text_name, 3)
             s = pd.Series([title, cat], index=datasets.columns)
             datasets = datasets.append(s, ignore_index=True)
+
+    # データフレームシャッフル
+    #引数fracで抽出する行・列の割合を指定できる。1だと100%
+    datasets = datasets.sample(frac=1).reset_index(drop=True)
+    return categories,datasets
+
+def load_dotcom(rpath = "../data/sltm_dotcom/title_cat.csv"):
+
+    datasets = pd.read_csv(rpath, header=None, names=["title", "category"])
+    #1:nを1:1に重複を削除
+    datasets=datasets.drop_duplicates(subset=["title"],keep='first')
+    # print(datasets)
+    cats=datasets.drop_duplicates(subset=["category"],keep='first')
+    # カテゴリを配列で取得
+    categories = cats["category"].to_numpy()
+    print(categories)
+    # print(categories["category"].to_numpy())
 
     # データフレームシャッフル
     #引数fracで抽出する行・列の割合を指定できる。1だと100%
@@ -66,6 +86,10 @@ def make_wakati(sentence):
 # 単語ID辞書を作成する
 def word2index(titels):
     word2index = {}
+    # 系列を揃えるためのパディング文字列<pad>を追加
+    # パディング文字列のIDは0とする
+    word2index.update({"<pad>":0})
+
     for title in titels:
         wakati = make_wakati(title)
         for word in wakati:
@@ -100,3 +124,14 @@ def category2tensor(cat, category2idx):
 
 #print(category2tensor("it-life-hack"))
 # tensor([1])
+
+
+# データをバッチでまとめるための関数
+def train2batch(title, category, batch_size=CONFIG.batch_size):
+    title_batch = []
+    category_batch = []
+    title_shuffle, category_shuffle = shuffle(title, category)
+    for i in range(0, len(title), batch_size):
+        title_batch.append(title_shuffle[i:i+batch_size])
+    category_batch.append(category_shuffle[i:i+batch_size])
+    return title_batch, category_batch
